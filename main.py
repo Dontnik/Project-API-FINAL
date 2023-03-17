@@ -1,3 +1,5 @@
+import shutil
+
 import requests
 import os
 import random
@@ -78,14 +80,17 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     pprint(response_content)
 
 
-def delete_local_files():
-
 if __name__ == "__main__":
     load_dotenv()
     access_token = os.getenv("ACCESS_TOKEN")
     group_id = os.getenv("GROUP_ID")
-    comic_alt = get_comic()
-    upload_url = get_upload_server(access_token, group_id)
-    photo_hash, photo_server, photo = upload_comics(upload_url)
-    media_id, owner_id = upload_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id)
-    publish_comic(access_token, group_id, owner_id, media_id, comic_alt)
+    try:
+        comic_alt = get_comic()
+        upload_url = get_upload_server(access_token, group_id)
+        photo_hash, photo_server, photo = upload_comics(upload_url)
+        media_id, owner_id = upload_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id)
+        publish_comic(access_token, group_id, owner_id, media_id, comic_alt)
+    except requests.exceptions.HTTPError:
+        print('Ошибка запроса!!')
+    finally:
+        shutil.rmtree('comics')
