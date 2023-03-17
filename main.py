@@ -52,19 +52,6 @@ def upload_comics(upload_url):
     return response_content['hash'], response_content['server'], response_content['photo']
 
 
-# def upload_comics_to_group(access_token):
-#     payload = {'access_token': access_token}
-#     url = 'https://api.vk.com/method/photos.saveWallPhoto'
-#     comic_path = 'comics\comic_current.png'
-#     with open(comic_path, 'rb') as photo:
-#         files = {
-#             'photo': photo
-#         }
-#         response = requests.post(url, files=files, params=payload)
-#         response.raise_for_status()
-#     pprint(response.json())
-
-
 def upload_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id):
     payload = {'v': '5.131', 'access_token': access_token, 'group_id': group_id, 'hash': photo_hash, 'server': photo_server, 'photo': photo}
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
@@ -89,6 +76,9 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     response.raise_for_status()
     response_content = response.json()
     pprint(response_content)
+
+
+def delete_local_files():
 
 if __name__ == "__main__":
     load_dotenv()
