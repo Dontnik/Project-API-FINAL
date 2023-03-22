@@ -1,5 +1,4 @@
 import shutil
-
 import requests
 import os
 import random
