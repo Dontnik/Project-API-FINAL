@@ -48,8 +48,8 @@ def upload_comics(upload_url):
             'photo': photo
         }
         response = requests.post(upload_url, files=files)
-        response.raise_for_status()
-        response_content = response.json()
+    response.raise_for_status()
+    response_content = response.json()
     return response_content['hash'], response_content['server'], response_content['photo']
 
 
@@ -79,13 +79,13 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
 
 if __name__ == "__main__":
     load_dotenv()
-    access_token = os.getenv("VK_ACCESS_TOKEN")
-    group_id = os.getenv("VK_GROUP_ID")
+    access_token = os.environ["VK_ACCESS_TOKEN"]
+    group_id = os.environ["VK_GROUP_ID"]
     try:
         comic_alt = get_comic()
         upload_url = get_upload_server(access_token, group_id)
         photo_hash, photo_server, photo = upload_comics(upload_url)
-        media_id, owner_id = upload_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id)
+        media_id, owner_id = save_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id)
         publish_comic(access_token, group_id, owner_id, media_id, comic_alt)
     except requests.exceptions.HTTPError:
         print('Ошибка запроса!!')
