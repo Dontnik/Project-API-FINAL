@@ -49,7 +49,6 @@ def upload_comics(upload_url):
         response = requests.post(upload_url, files=files)
         response.raise_for_status()
         response_content = response.json()
-    pprint(response.json())
     return response_content['hash'], response_content['server'], response_content['photo']
 
 
@@ -59,7 +58,6 @@ def upload_comics_to_group_album(access_token, photo_hash, photo_server, photo, 
     response = requests.post(url, params=payload)
     response.raise_for_status()
     response_content = response.json()
-    pprint(response.json())
     return response_content['response'][0]['id'], response_content['response'][0]['owner_id']
 
 
@@ -76,7 +74,6 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     response = requests.post(url, params=payload)
     response.raise_for_status()
     response_content = response.json()
-    pprint(response_content)
 
 
 if __name__ == "__main__":
