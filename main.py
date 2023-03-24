@@ -10,9 +10,9 @@ def download_image(filename, url, params=None):
     response = requests.get(url, params=params)
     response.raise_for_status()
     path = os.path.join("comics", filename)
-    os.makedirs('comics', exist_ok=True)
-    with open(path, 'wb') as file:
-        file.write(response.content)
+os.makedirs('comics', exist_ok=True)
+with open(path, 'wb') as file:
+    file.write(response.content)
 
 
 def get_comic():
