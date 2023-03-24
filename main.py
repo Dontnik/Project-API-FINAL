@@ -36,6 +36,7 @@ def get_upload_server(access_token, group_id):
     payload = {'v': '5.131', 'access_token': access_token, 'group_id': group_id}
     response = requests.get(url, params=payload)
     response_content = response.json()
+    response.raise_for_status()
     print(response_content)
     return response_content['response']['upload_url']
 
@@ -78,8 +79,8 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
 
 if __name__ == "__main__":
     load_dotenv()
-    access_token = os.getenv("ACCESS_TOKEN")
-    group_id = os.getenv("GROUP_ID")
+    access_token = os.getenv("VK_ACCESS_TOKEN")
+    group_id = os.getenv("VK_GROUP_ID")
     try:
         comic_alt = get_comic()
         upload_url = get_upload_server(access_token, group_id)
