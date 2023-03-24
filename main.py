@@ -16,7 +16,7 @@ def download_image(filename, url, params=None):
 
 
 def get_comic():
-    filename = 'comic_current.png'
+    filename = 'comic.png'
     url = 'https://xkcd.com/info.0.json'
     response = requests.get(url)
     response.raise_for_status()
@@ -42,7 +42,9 @@ def get_upload_server(access_token, group_id):
 
 
 def upload_comics(upload_url):
-    comic_path = 'comics\comic_current.png'
+    folder = 'comics'
+    filename = 'comic.png'
+    comic_path = os.path.join(folder, filename)
     with open(comic_path, 'rb') as photo:
         files = {
             'photo': photo
