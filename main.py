@@ -53,7 +53,7 @@ def upload_comics(upload_url):
     return response_content['hash'], response_content['server'], response_content['photo']
 
 
-def upload_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id):
+def save_comics_to_group_album(access_token, photo_hash, photo_server, photo, group_id):
     payload = {'v': '5.131', 'access_token': access_token, 'group_id': group_id, 'hash': photo_hash, 'server': photo_server, 'photo': photo}
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     response = requests.post(url, params=payload)
