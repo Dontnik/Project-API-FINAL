@@ -10,9 +10,9 @@ def download_image(filename, url, params=None):
     response = requests.get(url, params=params)
     response.raise_for_status()
     path = os.path.join("comics", filename)
-os.makedirs('comics', exist_ok=True)
-with open(path, 'wb') as file:
-    file.write(response.content)
+    os.makedirs('comics', exist_ok=True)
+    with open(path, 'wb') as file:
+        file.write(response.content)
 
 
 def get_comic():
@@ -28,6 +28,7 @@ def get_comic():
     response_content = response.json()
     img_url = response_content['img']
     download_image(filename, img_url)
+    error_handling_vk_api(response_content)
     return response_content["alt"]
 
 
@@ -38,6 +39,7 @@ def get_upload_server(access_token, group_id):
     response_content = response.json()
     response.raise_for_status()
     print(response_content)
+    error_handling_vk_api(response_content)
     return response_content['response']['upload_url']
 
 
@@ -52,6 +54,7 @@ def upload_comics(upload_url):
         response = requests.post(upload_url, files=files)
     response.raise_for_status()
     response_content = response.json()
+    error_handling_vk_api(response_content)
     return response_content['hash'], response_content['server'], response_content['photo']
 
 
@@ -62,7 +65,7 @@ def save_comics_to_group_album(access_token, photo_hash, photo_server, photo, gr
     response.raise_for_status()
     response_content = response.json()
     return response_content['response'][0]['id'], response_content['response'][0]['owner_id']
-
+    error_handling_vk_api(response_content)
 
 def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     payload =  {
@@ -77,7 +80,12 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     response = requests.post(url, params=payload)
     response.raise_for_status()
     response_content = response.json()
+    error_handling_vk_api(response_content)
 
+def error_handling_vk_api(response_content):
+    error = response_content.get('error')
+    if error:
+        raise requests.exceptions.HTTPError
 
 if __name__ == "__main__":
     load_dotenv()
