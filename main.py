@@ -3,7 +3,6 @@ import requests
 import os
 import random
 from dotenv import load_dotenv
-from pprint import pprint
 
 
 def download_image(filename, url, params=None):
