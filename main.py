@@ -66,6 +66,7 @@ def save_comics_to_group_album(access_token, photo_hash, photo_server, photo, gr
     return response_content['response'][0]['id'], response_content['response'][0]['owner_id']
     error_handling_vk_api(response_content)
 
+
 def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     payload =  {
         'access_token': access_token,
@@ -81,10 +82,12 @@ def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
     response_content = response.json()
     error_handling_vk_api(response_content)
 
+
 def error_handling_vk_api(response_content):
     error = response_content.get('error')
     if error:
         raise requests.exceptions.HTTPError
+
 
 if __name__ == "__main__":
     load_dotenv()
