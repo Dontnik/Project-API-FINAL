@@ -27,7 +27,6 @@ def get_comic():
     response_content = response.json()
     img_url = response_content['img']
     download_image(filename, img_url)
-    error_handling_vk_api(response_content)
     return response_content["alt"]
 
 
@@ -37,7 +36,6 @@ def get_upload_server(access_token, group_id):
     response = requests.get(url, params=payload)
     response_content = response.json()
     response.raise_for_status()
-    print(response_content)
     error_handling_vk_api(response_content)
     return response_content['response']['upload_url']
 
@@ -63,8 +61,8 @@ def save_comics_to_group_album(access_token, photo_hash, photo_server, photo, gr
     response = requests.post(url, params=payload)
     response.raise_for_status()
     response_content = response.json()
-    return response_content['response'][0]['id'], response_content['response'][0]['owner_id']
     error_handling_vk_api(response_content)
+    return response_content['response'][0]['id'], response_content['response'][0]['owner_id']
 
 
 def publish_comic(access_token, group_id, owner_id, media_id, comic_alt):
