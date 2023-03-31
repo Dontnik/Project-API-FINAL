@@ -9,7 +9,6 @@ def download_image(filename, url, params=None):
     response = requests.get(url, params=params)
     response.raise_for_status()
     path = os.path.join("comics", filename)
-    os.makedirs('comics', exist_ok=True)
     with open(path, 'wb') as file:
         file.write(response.content)
 
@@ -88,6 +87,7 @@ def error_handling_vk_api(response_content):
 
 
 if __name__ == "__main__":
+    os.makedirs('comics', exist_ok=True)
     load_dotenv()
     access_token = os.environ["VK_ACCESS_TOKEN"]
     group_id = os.environ["VK_GROUP_ID"]
